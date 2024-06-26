@@ -14,11 +14,21 @@ repositories {
     maven { url 'https://repo.spring.io/release' }
 }
 
+//注解处理器
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
     // 反应式web应用支持，Netty作为默认嵌入式服务器
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    // 支持使用GraalVM原生镜像编译器将Spring应用编译为原生可执行文件
-    implementation 'org.springframework.experimental:spring-native:0.12.1'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
