@@ -1,0 +1,6 @@
+gradle -> Tasks -> build -> nativeCompile
+需要GraalVM
+编译完成的可执行文件在：/build/native/nativeCompile/quote-service.exe，可直接运行
+
+bootBuildImage（Buildpacks）借助容器化技术，直接生成原生镜像，不需要GraalVM
+docker run --rm -p 9101:9101 quote-service  启动容器
