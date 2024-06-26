@@ -1,0 +1,29 @@
+plugins {
+    // 初始化项目时，Server URL选择start.aliyun.com（默认start.spring.io），创建springboot2.x
+    id 'org.springframework.boot' version '2.7.6'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
+}
+
+group = 'com.dyx'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/release' }
+}
+
+dependencies {
+    // 反应式web应用支持，Netty作为默认嵌入式服务器
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // 支持使用GraalVM原生镜像编译器将Spring应用编译为原生可执行文件
+    implementation 'org.springframework.experimental:spring-native:0.12.1'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
