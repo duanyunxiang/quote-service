@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
+    id 'org.springframework.experimental.aot' version '0.12.2'
 }
 
 group = 'com.dyx'
@@ -10,8 +11,8 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
+    maven { url 'https://repo.spring.io/milestone' }
     mavenCentral()
-    maven { url 'https://repo.spring.io/release' }
 }
 
 //注解处理器
@@ -24,6 +25,7 @@ configurations {
 dependencies {
     // 反应式web应用支持，Netty作为默认嵌入式服务器
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.experimental:spring-native:0.12.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -36,4 +38,12 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.named('bootBuildImage') {
+    // 使用tiny版本，以实现容器镜像最小化
+    builder = "docker.io/paketobuildpacks/builder-jammy-tiny"
+    // 启用对GraalVM的支持，并生成容器化的原生镜像
+    environment = ['BP_NATIVE_IMAGE': 'true']
+    imageName = "${project.name}"
 }
